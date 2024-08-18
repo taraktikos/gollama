@@ -1,0 +1,36 @@
+version: '3'
+services:
+  postgres:
+    image: 'ankane/pgvector:latest'
+    command: postgres -c shared_preload_libraries='pg_stat_statements' -c pg_stat_statements.track=all -c log_statement=all
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+
+  ollama:
+    image: 'ollama/ollama:latest'
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - '11434:11434'
+
+  ollama_init:
+    image: curlimages/curl:latest
+    depends_on:
+      - ollama
+    entrypoint: /bin/sh -c
+    command: >
+      "
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\": \"llama3.1\"}'
+      "
+volumes:
+  postgres_data:
+  ollama_data:

@@ -1,0 +1,15 @@
+###
+POST http://localhost:8080/gollama.v1.GollamaService/GenerateFromSinglePrompt HTTP/1.1
+content-type: application/json
+
+{
+    "prompt": "Who was the first man to walk on the moon?"
+}
+
+###
+POST http://localhost:8080/gollama.v1.GollamaService/Search HTTP/1.1
+content-type: application/json
+
+{
+    "text": "referencing engine speed"
+}

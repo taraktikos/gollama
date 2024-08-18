@@ -1,0 +1,32 @@
+version: '3'
+
+tasks:
+  sqlc:
+    desc: Generate sqlc
+    cmds:
+      - sqlc generate
+
+  buf:
+    desc: Generate buf
+    cmds:
+      - buf generate
+
+  migration:apply:
+    desc: Apply migration files
+    cmds:
+      - |
+        atlas migrate apply \
+        --dir "file://migrations" \
+        --url "postgres://postgres:postgres@127.0.0.1:5433/postgres?search_path=public&sslmode=disable"
+
+  migration:new-*:
+    desc: Generate new migration files
+    vars:
+      NAME: '{{index .MATCH 0}}'
+    cmds:
+      - atlas migrate new {{.NAME}} --dir "file://migrations"
+
+  migration:hash:
+    desc: Change migration hash
+    cmds:
+      - atlas migrate hash --dir "file://migrations"

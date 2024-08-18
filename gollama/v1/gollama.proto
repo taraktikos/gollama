@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package gollama.v1;
+
+option go_package = "github.com/taraktikos/gollama/gen/gollama/v1;gollamav1";
+
+message SearchRequest {
+  string text = 1;
+}
+
+message SearchResponse {
+  string text = 1;
+}
+
+message GenerateFromSinglePromptRequest {
+  string prompt = 1;
+}
+
+message GenerateFromSinglePromptResponse {
+  string content = 1;
+}
+
+service GollamaService {
+  rpc Search(SearchRequest) returns (SearchResponse) {}
+  rpc GenerateFromSinglePrompt(GenerateFromSinglePromptRequest) returns (GenerateFromSinglePromptResponse) {}
+}
