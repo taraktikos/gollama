@@ -48,7 +48,6 @@ func main() {
 		slog.Error("run server failed", slog.Any("err", err))
 		os.Exit(1)
 	}
-
 }
 
 func runImport(ctx context.Context, cfg Config) error {

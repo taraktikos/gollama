@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"log/slog"
 
 	"connectrpc.com/connect"
@@ -25,7 +24,7 @@ func (s *GollamaServer) Search(ctx context.Context, req *connect.Request[gollama
 
 	embeddings, err := s.llm.CreateEmbedding(ctx, []string{req.Msg.Text})
 	if err != nil {
-		log.Fatal(err)
+		return nil, fmt.Errorf("create embedding: %w", err)
 	}
 
 	records, err := s.queries.GetMostSimilarRecord(ctx, pgvector.NewVector(embeddings[0]))
